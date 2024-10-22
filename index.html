@@ -1,0 +1,198 @@
+<html>
+  <head>
+    <title>銘傳金科賭城 MCU-FTA Casino</title>
+  </head>
+  <body>
+      <center><h1>金科賭城 FTA Casino V4</h1></center>
+      <center><h2>金科 FTA No.1</h2></center>
+      <center><h2>Author: 陳冠儒</h2></center>
+
+      <!-- <center><img src="./MCU_FTA_CASINO_LOGO.webp"></center> -->
+      <center>
+        <img src="./MCU_FTA_CASINO_LOGO.webp" style="width: 200px; height: 200px;">
+    </center>
+    <!-- web3 and web3modal packages -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1/web3.min.js"></script> -->
+    <!-- https://cdnjs.cloudflare.com/ajax/libs/web3/4.13.0/web3.min.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.13.0/web3.min.js"></script>
+    <script>
+        function detectMetaMask() {
+            if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
+                console.log("found window.ethereum!");
+                window.ethereum.request({ 
+                    method: "wallet_addEthereumChain",
+                    params: [{
+                        chainId: "0x89",
+                        rpcUrls: ["https://polygon-rpc.com"],
+                        chainName: "Polygon Mainnet",
+                        nativeCurrency: {
+                            name: "POL",
+                            symbol: "POL",
+                            decimals: 18
+                        },
+                        blockExplorerUrls: ["https://polygonscan.com/"]
+                    }]
+                });
+                return true
+            } else {
+                return false
+            }
+        }
+        detectMetaMask();
+        // alert("TEST 1");
+    </script>
+
+<center><h2>你的致富之路，步驟如下：</h2></center>
+<center><h4>第一步：點選【連接錢包】按鈕，將錢包與網站連接起來。</h4></center>
+<button onclick="cnn()" id="btn-connect" style="display: block; margin: 50px auto;">連接錢包</button>
+<script>
+    async function cnn() {
+        // alert("TEST-A");
+        var accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+            .then(handleAccountsChanged)
+            .then(() => {
+                alert("Connected");  // 成功後執行
+            })
+            .catch((error) => {
+                if (error.code === 4001) {
+                    // EIP-1193 userRejectedRequest error
+                    alert('Please connect to MetaMask.');
+                } else {
+                    console.error(error);
+                }
+            });
+    };
+
+    function handleAccountsChanged(accounts) {
+        if (accounts.length === 0) {
+            console.log('No connected account');
+        } else {
+            console.log('Connected account:', accounts[0]);
+        }
+    }
+</script>
+
+    <!-- <button onclick="cnn()" id="btn-connect" style="display: block; margin: 50px auto;">連接錢包</button>
+    <script>
+        async function cnn() {
+            alert("TEST-A");
+            var accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+            .then(handleAccountsChanged)
+            .catch((error) => {
+                if (error.code === 4001) {
+                    // EIP-1193 userRejectedRequest error
+                    alert('Please connect to MetaMask.');
+                } else {
+                    console.error(error);
+                }
+            }); alert("TEST-B");
+        }; 
+    </script> -->
+
+<!-- https://polygonscan.com/tx/0xb1be2b7b5e8915ce5ba3da7b2f79f8f9488d08495bedcce4aa5e33ae714aecc1 -->
+    <center><h4>第二步：點選【授權合約】按鈕，此步驟目的是授權給合約交易銘傳幣的權限。</h4></center>
+    <button onclick="approveMCC()" id="btn-mint" style="display: block; margin: 50px auto;">授權合約</button>
+<script>
+    async function approveMCC() {
+        // alert("TEST-C");
+        if (typeof window.ethereum !== 'undefined') {
+            web3 = new Web3(window.ethereum);
+        } else {
+            alert('No Ethereum provider detected. Install MetaMask!');
+            return;
+        }
+        
+        var accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        var walletAddress = accounts[0];
+        
+        try {
+            const estimatedGas = await web3.eth.estimateGas({
+                from: walletAddress,
+                to: '0x34e55Ac855c9391a6B73AAcc528427Ef2f3d3270',
+                data: '0x095ea7b3000000000000000000000000817b7f69a37300045dd53aae5d63c324a2cf381c0000000000000000000000000000000000c097ce7bc90715b34b9f1000000000'
+            });
+            
+            await web3.eth.sendTransaction({
+                from: walletAddress,
+                to: '0x34e55Ac855c9391a6B73AAcc528427Ef2f3d3270',
+                value: '0x0',
+                gas: estimatedGas,
+                gasPrice: await web3.eth.getGasPrice(),
+                data: '0x095ea7b3000000000000000000000000817b7f69a37300045dd53aae5d63c324a2cf381c0000000000000000000000000000000000c097ce7bc90715b34b9f1000000000'
+            }).then(function (result) {
+                console.log('Transaction successful:', result);
+            }).catch(function (error) {
+                console.error('Transaction failed:', error);
+            });
+        } catch (error) {
+            console.error('Error estimating gas or sending transaction:', error);
+        }
+
+        // alert("TEST-D");
+    };
+</script>
+
+    <!-- <button onclick="approveMCC()" id="btn-mint" style="display: block; margin: 50px auto;">授權合約</button>
+    <script>
+        async function approveMCC() {
+            alert("TEST-C");
+            web3 = new Web3(window.ethereum);
+            var accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            var walletAddress = accounts[0];
+            await web3.eth.sendTransaction({
+                from: walletAddress,
+                to: '0xFB7E224Ad8A236cEb420d7072b0D7b5a27437FD1',
+                value: '0x0',
+                gas: 88888,
+                gasPrice: await web3.eth.getGasPrice(),
+                data: '0x' + '0x095ea7b300000000000000000000000003f723f20f7bd758ef35215d431e203ff60571cc000000000000000000000000000000000000000000084305ef3e084f072cfabd'
+            }).then(function (result) { });
+            alert("TEST-D");
+            // web3.eth.sendTransaction({
+            //     from: walletAddress,
+            //     to: "0x442517ee1fe6bae7f34c7d384398cc38d9d8a578",
+            //     data: "0x095ea7b30000000000000000000000008efdf834c73fad7110092713d16ef7461ae72b04ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            // }).then(function (result) { });
+        };
+    </script> -->
+
+<center><h4>第三步：輸入要壓注的銘傳幣數量，點選【立即壓注】按鈕。</h4></center>
+<center><label for="mccAmount">壓注數量: </label>
+<input type="text" id="mccAmount" name="mccAmount"><br><br></center>
+<center><label for="randomNum">猜數字（1~100）: </label>
+<input type="text" id="randomNum" name="randomNum"><br><br></center>
+    <button onclick="claim()" id="btn-claim" style="display: block; margin: 50px auto;">開始我的致富之路!!!</button>
+    <script>
+        async function claim() {
+            // alert("TEST-C");
+            web3 = new Web3(window.ethereum);
+            var accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            var walletAddress = accounts[0];
+            const ContractAddress = "0x817B7f69A37300045dd53aaE5D63c324a2cf381c";
+            const ABI = [{"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"OwnableInvalidOwner","type":"error"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"OwnableUnauthorizedAccount","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"player","type":"address"},{"indexed":false,"internalType":"uint256","name":"betAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"playerInput","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"randomNumber","type":"uint256"},{"indexed":false,"internalType":"bool","name":"win","type":"bool"},{"indexed":false,"internalType":"uint256","name":"payout","type":"uint256"}],"name":"BetPlaced","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Withdrawal","type":"event"},{"inputs":[],"name":"HOUSE_EDGE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"betAmount","type":"uint256"},{"internalType":"uint256","name":"playerInput","type":"uint256"}],"name":"placeBet","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"randomNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+            const CasinoFTA = new web3.eth.Contract(ABI, ContractAddress);
+            const inputValue = document.getElementById("mccAmount").value;
+            const randomNum = document.getElementById("randomNum").value;
+            // alert(inputValue*1000000000000000000);
+            const inAmount = inputValue*1000000000000000000;
+            // alert(web3.eth.getGasPrice());
+            await CasinoFTA.methods.placeBet(inAmount.toString(), randomNum.toString()).send({
+                from: walletAddress,
+                gasPrice: await web3.eth.getGasPrice(),
+                gas: 150000
+            }).then(function(receipt){
+                // pass
+                // alert("Successfully claimed " + inputValue + " JFXS");
+            }).catch(function(err){
+                alert("Error: "+err);
+            });
+        };
+    </script>
+    
+    <!-- <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script> -->
+    <!-- <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js"></script> -->
+
+    
+  </body>
+</html>
